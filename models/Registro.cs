@@ -1,34 +1,39 @@
-using System;
-
+namespace proyectoBD.Models
+{
 public class Registro
 {
-    // Propiedades de la clase
-    public int Id { get; set; }
-    public string Descripcion { get; set; }
-    public DateTime FechaHora { get; set; }
+    public string Cedula { get; set; }
+    public string Nombre { get; set; }
+    public DateTime FechaNacimiento { get; set; }
+    public string Celular { get; set; }
+    public string Correo { get; set; }
+    public decimal Salario { get; set; }
+    public string Facultad { get; set; }
 
-    // Constructor por defecto
-    public Registro()
+    // Constructor
+    public Registro(string cedula, string nombre, DateTime fechaNacimiento, string celular, string correo, decimal salario, string facultad)
     {
-        // Inicializar propiedades con valores por defecto
-        Id = 0;
-        Descripcion = string.Empty;
-        FechaHora = DateTime.Now;
+        Cedula = cedula;
+        Nombre = nombre;
+        FechaNacimiento = fechaNacimiento;
+        Celular = celular;
+        Correo = correo;
+        Salario = salario;
+        Facultad = facultad;
     }
 
-    // Constructor con parámetros
-    public Registro(int id, string descripcion, DateTime fechaHora)
+    //  mostrar los datos del registro
+    public override string ToString()
     {
-        Id = id;
-        Descripcion = descripcion;
-        FechaHora = fechaHora;
-    }
-
-    // Método para mostrar la información del registro
-    public void MostrarInformacion()
-    {
-        Console.WriteLine($"ID: {Id}");
-        Console.WriteLine($"Descripción: {Descripcion}");
-        Console.WriteLine($"Fecha y Hora: {FechaHora}");
+        return $"Cédula: {Cedula}, Nombre: {Nombre}, Fecha de Nacimiento: {FechaNacimiento.ToShortDateString()}, " +
+               $"Celular: {Celular}, Correo: {Correo}, Salario: {Salario:C}, Facultad: {Facultad}";
     }
 }
+
+
+
+
+}
+
+
+
