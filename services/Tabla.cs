@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MiProyecto.Models;
+using ProyectoBD.Models;
 
-namespace MiProyecto.Services
+namespace ProyectoBD.Services
 {
     public class Tabla
     {
@@ -52,9 +52,10 @@ namespace MiProyecto.Services
                 {
                     foreach (var registro in _registros)
                     {
-                        writer.WriteLine(registro.ToString());
+                        writer.WriteLine($"{registro.Cedula},{registro.Nombre},{registro.FechaNacimiento:dd/MM/yyyy},{registro.Celular},{registro.Correo},{registro.Salario},{registro.Facultad}");
                     }
                 }
+                Console.WriteLine("Registros guardados correctamente.");
             }
             catch (Exception ex)
             {
@@ -63,69 +64,43 @@ namespace MiProyecto.Services
         }
 
         // Método para cargar registros desde un archivo
-        private void CargarRegistros()
+       private void CargarRegistros()
+{
+    try
+    {
+        if (File.Exists(_rutaArchivo))
         {
-            try
+            using (StreamReader reader = new StreamReader(_rutaArchivo))
             {
-                if (File.Exists(_rutaArchivo))
+                string linea;
+                while ((linea = reader.ReadLine()) != null)
                 {
-                    using (StreamReader reader = new StreamReader(_rutaArchivo))
+                    string[] datos = linea.Split(',');
+                    if (datos.Length == 7)
                     {
-                        string linea;
-                        while ((linea = reader.ReadLine()) != null)
-                        {
-                            string[] datos = linea.Split(',');
-                            if (datos.Length == 7)
-                            {
-                                _registros.Add(new Registro(
-                                    datos[0], // Cédula
-                                    datos[1], // Nombre
-                                    datos[2], // FechaNacimiento
-                                    datos[3], // Celular
-                                    datos[4], // Correo
-                                    decimal.Parse(datos[5]), // Salario
-                                    int.Parse(datos[6]) // Facultad
-                                ));
-                            }
-                        }
+                        _registros.Add(new Registro(
+                            datos[0].Trim(), // Cédula
+                            datos[1].Trim(), // Nombre
+                            DateTime.ParseExact(datos[2].Trim(), "dd/MM/yyyy", null), // FechaNacimiento
+                            datos[3].Trim(), // Celular
+                            datos[4].Trim(), // Correo
+                            decimal.Parse(datos[5].Trim()), // Salario
+                            datos[6].Trim()  // Facultad
+                        ));
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al cargar los registros: {ex.Message}");
-            }
+            Console.WriteLine("Registros cargados correctamente.");
+        }
+        else
+        {
+            Console.WriteLine("El archivo no existe. Se creará uno nuevo al guardar registros.");
         }
     }
-}using System;
-
-namespace MiProyecto.Models
-{
-    public class Registro
+    catch (Exception ex)
     {
-        public int Id { get; set; }
-        public string Descripcion { get; set; }
-        public DateTime FechaHora { get; set; }
-
-        public Registro()
-        {
-            Id = 0;
-            Descripcion = string.Empty;
-            FechaHora = DateTime.Now;
-        }
-
-        public Registro(int id, string descripcion, DateTime fechaHora)
-        {
-            Id = id;
-            Descripcion = descripcion;
-            FechaHora = fechaHora;
-        }
-
-        public void MostrarInformacion()
-        {
-            Console.WriteLine($"ID: {Id}");
-            Console.WriteLine($"Descripción: {Descripcion}");
-            Console.WriteLine($"Fecha y Hora: {FechaHora}");
-        }
+        Console.WriteLine($"Error al cargar los registros: {ex.Message}");
+    }
+}
     }
 }
