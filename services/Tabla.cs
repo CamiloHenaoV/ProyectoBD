@@ -18,11 +18,23 @@ namespace ProyectoBD.Services
         }
 
         // Método para agregar un registro
-        public void AgregarRegistro(Registro registro)
-        {
-            _registros.Add(registro);
-            GuardarRegistros();
-        }
+       public void AgregarRegistro(Registro registro)
+{
+    if (_registros.Exists(r => r.Cedula == registro.Cedula))
+    {
+        Console.WriteLine("Error: La cédula ya está registrada.");
+        return;
+    }
+
+    if (!registro.Correo.Contains("@"))
+    {
+        Console.WriteLine("Error: Formato de correo inválido.");
+        return;
+    }
+
+    _registros.Add(registro);
+    GuardarRegistros();
+}
 
         // Método para eliminar un registro por cédula
         public void EliminarRegistro(string cedula)
@@ -64,7 +76,7 @@ namespace ProyectoBD.Services
         }
 
         // Método para cargar registros desde un archivo
-       private void CargarRegistros()
+      private void CargarRegistros()
 {
     try
     {
@@ -76,7 +88,13 @@ namespace ProyectoBD.Services
                 while ((linea = reader.ReadLine()) != null)
                 {
                     string[] datos = linea.Split(',');
-                    if (datos.Length == 7)
+                    if (datos.Length != 7)
+                    {
+                        Console.WriteLine($"Advertencia: Línea inválida en el archivo: {linea}");
+                        continue;
+                    }
+
+                    try
                     {
                         _registros.Add(new Registro(
                             datos[0].Trim(), // Cédula
@@ -88,6 +106,10 @@ namespace ProyectoBD.Services
                             datos[6].Trim()  // Facultad
                         ));
                     }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine($"Error de formato en línea: {linea} - {ex.Message}");
+                    }
                 }
             }
             Console.WriteLine("Registros cargados correctamente.");
@@ -97,10 +119,14 @@ namespace ProyectoBD.Services
             Console.WriteLine("El archivo no existe. Se creará uno nuevo al guardar registros.");
         }
     }
+    catch (IOException ex)
+    {
+        Console.WriteLine($"Error de E/S al cargar los registros: {ex.Message}");
+    }
     catch (Exception ex)
     {
-        Console.WriteLine($"Error al cargar los registros: {ex.Message}");
+        Console.WriteLine($"Error inesperado al cargar los registros: {ex.Message}");
     }
 }
-    }
-}
+
+        
