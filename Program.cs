@@ -1,7 +1,8 @@
 ﻿using System;
 using ProyectoBD.Services;
 using ProyectoBD.Models;
-
+//Juan Camilo Henao Villegas
+//Juliana Andrea Salas Tapia 
 
 class Program
 {

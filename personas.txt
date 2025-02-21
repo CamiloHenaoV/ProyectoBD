@@ -24998,3 +24998,4 @@
 1985435370,Javier Ramos,15/07/1950,39880229,javier.ramos@outlook.com,10000000,2
 2708826453,Carlos Romero,08/06/1958,36955447,carlos.romero@yahoo.com,8500000,5
 2682338483,Facundo Mendoza,02/07/1951,39128285,facundo.mendoza@yahoo.com,2500000,2
+1000646045,Juan Henao,17/06/2001,3122563361,juanhenao1234@gmail.com,1000000,2
