@@ -18,11 +18,23 @@ namespace ProyectoBD.Services
         }
 
         // Método para agregar un registro
-        public void AgregarRegistro(Registro registro)
-        {
-            _registros.Add(registro);
-            GuardarRegistros();
-        }
+       public void AgregarRegistro(Registro registro)
+{
+    if (_registros.Exists(r => r.Cedula == registro.Cedula))
+    {
+        Console.WriteLine("Error: La cédula ya está registrada.");
+        return;
+    }
+
+    if (!registro.Correo.Contains("@"))
+    {
+        Console.WriteLine("Error: Formato de correo inválido.");
+        return;
+    }
+
+    _registros.Add(registro);
+    GuardarRegistros();
+}
 
         // Método para eliminar un registro por cédula
         public void EliminarRegistro(string cedula)
