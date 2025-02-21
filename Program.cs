@@ -1,19 +1,4 @@
-<<<<<<< HEAD
-﻿public class Registro
-{
-    public int Id { get; set; }
-    public string Nombre { get; set; }
-    public int Edad { get; set; }
-
-    public Registro(int id, string nombre, int edad)
-    {
-        Id = id;
-        Nombre = nombre;
-        Edad = edad;
-    }
-    
-=======
-﻿using System;
+using System;
 using ProyectoBD.Services;
 using ProyectoBD.Models;
 
@@ -94,4 +79,3 @@ class Program
         }
     }
 }
->>>>>>> e2f443cbc8dd0fb3dd9eebfc18bc3db31f8a7148
